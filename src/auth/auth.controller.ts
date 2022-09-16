@@ -1,5 +1,5 @@
 import { CreateUserDto } from './dtos/createUser.dto';
-import { Routes, Services } from './../utils/types';
+import { Routes, Services } from '../utils/constants';
 import {
   Body,
   Controller,
@@ -10,14 +10,19 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { IAuthService } from './auth';
+import { IUserService } from 'src/users/users';
 
 @Controller(Routes.AUTH)
 export class AuthController {
-  constructor(@Inject(Services.AUTH) private authService: IAuthService) {}
+  constructor(
+    @Inject(Services.AUTH) private authService: IAuthService,
+    @Inject(Services.USERS) private userService: IUserService,
+  ) {}
 
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     console.log(createUserDto);
+    this.userService.createUser(createUserDto);
   }
 
   @Post('login')
