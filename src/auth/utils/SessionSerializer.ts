@@ -7,7 +7,7 @@ import { User } from 'src/utils/typeorm';
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
   constructor(
-    @Inject(Services.USERS) private readonly UsersService: IUserService,
+    @Inject(Services.USERS) private readonly usersService: IUserService,
   ) {
     super();
   }
@@ -17,7 +17,7 @@ export class SessionSerializer extends PassportSerializer {
   }
 
   async deserializeUser(user: User, done: CallableFunction) {
-    const userDb = await this.UsersService.findUser({ id: user.id });
+    const userDb = await this.usersService.findUser({ id: user.id });
     return userDb ? done(null, userDb) : done(null, null);
   }
 }
