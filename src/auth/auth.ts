@@ -1,3 +1,6 @@
+import { User } from 'src/utils/typeorm';
+import { validateUserDetails } from 'src/utils/types';
+
 export interface IAuthService {
-  validateUser();
+  validateUser(userCredentials: validateUserDetails);
 }

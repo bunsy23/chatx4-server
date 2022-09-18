@@ -1,14 +1,7 @@
+import { LocalAuthGuard } from './utils/Guards';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { Routes, Services } from '../utils/constants';
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { IAuthService } from './auth';
 import { IUserService } from 'src/users/users';
 import { instanceToPlain } from 'class-transformer';
@@ -26,8 +19,11 @@ export class AuthController {
     return instanceToPlain(user);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  login() {}
+  login() {
+    console.log('login');
+  }
 
   @Get('status')
   status() {}
