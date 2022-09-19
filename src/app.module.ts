@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ConversationsModule } from './conversations/conversations.module';
 import entities from './utils/typeorm';
 
 @Module({
@@ -24,6 +25,7 @@ import entities from './utils/typeorm';
       entities: entities,
       synchronize: true,
     }),
+    ConversationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
