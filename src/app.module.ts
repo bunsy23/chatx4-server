@@ -7,13 +7,13 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConversationsModule } from './conversations/conversations.module';
-import { ParticipantsModule } from './participants/participants.module';
 import entities from './utils/typeorm';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    ConversationsModule,
     ConfigModule.forRoot({ envFilePath: '.env.development' }),
     PassportModule.register({ session: true }),
     TypeOrmModule.forRoot({
@@ -26,8 +26,6 @@ import entities from './utils/typeorm';
       entities: entities,
       synchronize: true,
     }),
-    ConversationsModule,
-    ParticipantsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
