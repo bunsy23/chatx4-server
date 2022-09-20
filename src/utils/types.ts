@@ -1,3 +1,6 @@
+import { Request } from '@nestjs/common';
+import { User } from './typeorm';
+
 export type createUserDetails = {
   email: string;
   firstName: string;
@@ -20,3 +23,13 @@ export type CreateConversationParams = {
   recipientId: number;
   message: string;
 };
+
+export type FindParticipantParams = Partial<{
+  id: number;
+}>;
+
+export type CreateParticipantParams = { id: number };
+
+export interface AuthenticatedRequest extends Request {
+  user: User;
+}
