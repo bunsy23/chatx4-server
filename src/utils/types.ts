@@ -32,3 +32,9 @@ export type CreateParticipantParams = { id: number };
 export interface AuthenticatedRequest extends Request {
   user: User;
 }
+
+export type CreateMessageParams = {
+  content: string;
+  conversationId: number;
+  user: User;
+};
