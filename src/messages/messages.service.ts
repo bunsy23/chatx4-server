@@ -39,8 +39,8 @@ export class MessagesService implements IMessageService {
       throw new HttpException('Cannot Create Message ', HttpStatus.FORBIDDEN);
     }
 
-    conversation.creator = instanceToPlain(conversation.creator) as User;
-    conversation.recipient = instanceToPlain(conversation.recipient) as User;
+    // conversation.creator = instanceToPlain(conversation.creator) as User;
+    // conversation.recipient = instanceToPlain(conversation.recipient) as User;
 
     const newMessage = await this.messageRepository.create({
       content: content,
@@ -48,6 +48,9 @@ export class MessagesService implements IMessageService {
       author: instanceToPlain(user),
     });
 
-    return this.messageRepository.save(newMessage);
+    const savedMessage = await this.messageRepository.save(newMessage);
+    conversation.lastMessageSent = savedMessage;
+    await this.conversationRepository.save(conversation);
+    return;
   }
 }
