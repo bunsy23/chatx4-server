@@ -44,6 +44,10 @@ export class ConversationsService implements IConversationService {
     return this.conversationRepository
       .createQueryBuilder('conversation')
       .where('conversation.id = :id', { id: conversationId })
+      .leftJoinAndSelect('conversation.creator', 'creators')
+      .leftJoinAndSelect('conversation.recipient', 'recipients')
+      .leftJoinAndSelect('conversation.messages', 'messages')
+      .leftJoinAndSelect('messages.author', 'author')
       .getOne();
   }
 

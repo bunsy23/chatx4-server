@@ -1,6 +1,14 @@
 import { CreateMessageDto } from './dto/createMessage.dto';
 import { AuthenticatedGuard } from 'src/auth/utils/Guards';
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { Routes, Services } from 'src/utils/constants';
 import { IMessageService } from './message';
 import { AuthUser } from 'src/utils/decorators';
@@ -20,5 +28,16 @@ export class MessagesController {
     @Body() createMessageDto: CreateMessageDto,
   ) {
     return this.messagesService.createMessage({ ...createMessageDto, user });
+  }
+
+  @Get(':id')
+  getMessagesByConversationId(
+    @AuthUser() user: User,
+    @Param('id') conversationId: number,
+  ) {
+    return this.messagesService.getMessagesByConversationId(
+      user,
+      conversationId,
+    );
   }
 }
