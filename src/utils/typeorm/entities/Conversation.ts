@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -28,7 +29,7 @@ export class Conversation {
   @JoinColumn()
   messages: Message[];
 
-  @Column({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: number;
 
   @OneToOne(() => Message)

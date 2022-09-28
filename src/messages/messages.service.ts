@@ -51,7 +51,7 @@ export class MessagesService implements IMessageService {
     const savedMessage = await this.messageRepository.save(newMessage);
     conversation.lastMessageSent = savedMessage;
     await this.conversationRepository.save(conversation);
-    return;
+    return savedMessage;
   }
 
   async getMessagesByConversationId(
