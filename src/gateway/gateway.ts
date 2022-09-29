@@ -52,7 +52,7 @@ export class MessagingGateway implements OnGatewayConnection {
         ? this.gatewaySessionManager.getSocket(recipient.id)
         : this.gatewaySessionManager.getSocket(creator.id);
 
-    authorSocket.emit('onMessage', payload);
-    recipientSocket.emit('onMessage', payload);
+    if (authorSocket) authorSocket.emit('onMessage', payload);
+    if (recipientSocket) recipientSocket.emit('onMessage', payload);
   }
 }
