@@ -54,10 +54,12 @@ export class ConversationsService implements IConversationService {
     user: User,
     conversationParams: CreateConversationParams,
   ) {
-    const { recipientId } = conversationParams;
+    const { email } = conversationParams;
+
+    const { id: recipientId } = await this.usersService.findUser({ email });
 
     // handle requestor add him-/herself as the recipient
-    if (user.id === conversationParams.recipientId) {
+    if (user.id === recipientId) {
       throw new HttpException(
         'Cannot CREATE Conversation',
         HttpStatus.BAD_REQUEST,
