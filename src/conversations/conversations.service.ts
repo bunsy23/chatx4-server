@@ -16,11 +16,10 @@ export class ConversationsService implements IConversationService {
   ) {}
 
   async getConversations(userId: number): Promise<Conversation[]> {
-    // console.log({ userId });
-
     return this.conversationRepository
       .createQueryBuilder('conversation')
       .leftJoinAndSelect('conversation.creator', 'creator')
+      .leftJoinAndSelect('conversation.lastMessageSent', 'lastMessageSent')
       .addSelect([
         'creator.id',
         'creator.firstName',
