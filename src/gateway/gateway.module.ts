@@ -1,4 +1,4 @@
-import { MessagingGateway } from './websocket.gateway';
+import { MessagingGateway } from './gateway';
 import { Module } from '@nestjs/common';
 
 @Module({ providers: [MessagingGateway] })

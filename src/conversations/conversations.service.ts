@@ -16,7 +16,7 @@ export class ConversationsService implements IConversationService {
   ) {}
 
   async getConversations(userId: number): Promise<Conversation[]> {
-    console.log({ userId });
+    // console.log({ userId });
 
     return this.conversationRepository
       .createQueryBuilder('conversation')
