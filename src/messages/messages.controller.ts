@@ -29,11 +29,11 @@ export class MessagesController {
     @AuthUser() user: User,
     @Body() createMessageDto: CreateMessageDto,
   ) {
-    const message = await this.messagesService.createMessage({
+    const response = await this.messagesService.createMessage({
       ...createMessageDto,
       user,
     });
-    this.eventEmitter.emit('message.create', message);
+    this.eventEmitter.emit('message.create', response);
     return;
   }
 

@@ -1,3 +1,4 @@
+import { CreateMessageResponse } from './../utils/types';
 import { instanceToPlain } from 'class-transformer';
 import { CreateMessageParams } from 'src/utils/types';
 import { IMessageService } from './message';
@@ -19,10 +20,10 @@ export class MessagesService implements IMessageService {
     user,
     conversationId,
     content,
-  }: CreateMessageParams): Promise<Message> {
+  }: CreateMessageParams): Promise<CreateMessageResponse> {
     const conversation = await this.conversationRepository.findOne({
       where: { id: conversationId },
-      relations: ['creator', 'recipient'],
+      relations: ['creator', 'recipient', 'lastMessageSent'],
     });
 
     if (!conversation) {
@@ -30,10 +31,10 @@ export class MessagesService implements IMessageService {
     }
 
     const { creator, recipient } = conversation;
-    console.log(
-      { creator, recipient, user },
-      creator.id !== user.id || recipient.id !== user.id,
-    );
+    // console.log(
+    //   { creator, recipient, user },
+    //   creator.id !== user.id || recipient.id !== user.id,
+    // );
 
     if (creator.id !== user.id && recipient.id !== user.id) {
       throw new HttpException('Cannot Create Message', HttpStatus.FORBIDDEN);
@@ -50,8 +51,10 @@ export class MessagesService implements IMessageService {
 
     const savedMessage = await this.messageRepository.save(newMessage);
     conversation.lastMessageSent = savedMessage;
-    await this.conversationRepository.save(conversation);
-    return savedMessage;
+    const newConversation = await this.conversationRepository.save(
+      conversation,
+    );
+    return { message: savedMessage, conversation: newConversation };
   }
 
   async getMessagesByConversationId(

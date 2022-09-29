@@ -35,7 +35,7 @@ export class ConversationsService implements IConversationService {
       ])
       .where('creator.id = :id', { id: userId })
       .orWhere('recipient.id = :id', { id: userId })
-      .orderBy('lastMessageSent.createdAt', 'DESC')
+      .orderBy('conversation.updatedAt', 'DESC')
       .getMany();
   }
 

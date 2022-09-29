@@ -7,6 +7,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Message } from './Message';
 import { User } from './User';
@@ -29,10 +30,13 @@ export class Conversation {
   @JoinColumn()
   messages: Message[];
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: number;
-
   @OneToOne(() => Message)
   @JoinColumn({ name: 'last_message_sent' })
   lastMessageSent: Message;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: number;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: number;
 }

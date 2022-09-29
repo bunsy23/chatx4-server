@@ -1,3 +1,4 @@
+import { CreateMessageResponse } from './../utils/types';
 import { Inject } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
@@ -39,12 +40,12 @@ export class MessagingGateway implements OnGatewayConnection {
   }
 
   @OnEvent('message.create')
-  handleMessageCreateEvent(payload: Message) {
+  handleMessageCreateEvent(payload: CreateMessageResponse) {
     console.log('message.create > handleMessageCreateEvent', payload);
     const {
       author,
       conversation: { creator, recipient },
-    } = payload;
+    } = payload.message;
 
     const authorSocket = this.gatewaySessionManager.getSocket(author.id);
     const recipientSocket =
