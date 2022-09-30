@@ -11,7 +11,7 @@ import {
 import { Server } from 'socket.io';
 import { Services } from 'src/utils/constants';
 import { AuthenticatedSocket } from 'src/utils/interfaces';
-import { Message } from 'src/utils/typeorm';
+import { Conversation } from 'src/utils/typeorm';
 import { GatewaySessionManagerImp } from './gateway.session';
 
 @WebSocketGateway({
@@ -28,7 +28,8 @@ export class MessagingGateway implements OnGatewayConnection {
 
   handleConnection(socket: AuthenticatedSocket, ...args: any[]) {
     this.gatewaySessionManager.setUserSocket(socket.user.id, socket);
-    socket.emit('connected', { status: 'connected' });
+
+    socket.join('some room');
   }
 
   @WebSocketServer()
@@ -37,6 +38,11 @@ export class MessagingGateway implements OnGatewayConnection {
   @SubscribeMessage('createMessage')
   handleCreateMessage(@MessageBody() data: any) {
     // console.log('handleCreateMessage', { data });
+  }
+
+  @SubscribeMessage('onUserTyping')
+  handleUserTyping(@MessageBody() data: any) {
+    console.log({ data });
   }
 
   @OnEvent('message.create')
@@ -55,5 +61,16 @@ export class MessagingGateway implements OnGatewayConnection {
 
     if (authorSocket) authorSocket.emit('onMessage', payload);
     if (recipientSocket) recipientSocket.emit('onMessage', payload);
+  }
+
+  @OnEvent('conversation.create')
+  handleConversationCreateEvent(payload: Conversation) {
+    console.log('conversation.create', { payload });
+
+    const recipientSocket = this.gatewaySessionManager.getSocket(
+      payload.recipient.id,
+    );
+
+    if (recipientSocket) recipientSocket.emit('onConversation', payload);
   }
 }

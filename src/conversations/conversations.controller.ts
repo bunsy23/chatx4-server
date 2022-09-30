@@ -1,3 +1,4 @@
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CreateConversationDto } from './dto/createConversation.dto';
 import {
   Body,
@@ -20,6 +21,7 @@ export class ConversationsController {
   constructor(
     @Inject(Services.CONVERSATIONS)
     private readonly conversationsService: IConversationService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   @Post()
@@ -27,10 +29,13 @@ export class ConversationsController {
     @AuthUser() user: User,
     @Body() createConversationPayload: CreateConversationDto,
   ) {
-    return this.conversationsService.createConversation(
+    const newConversation = await this.conversationsService.createConversation(
       user,
       createConversationPayload,
     );
+
+    this.eventEmitter.emit('conversation.create', newConversation);
+    return newConversation;
   }
 
   @Get()
