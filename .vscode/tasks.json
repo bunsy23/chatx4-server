@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CreateTerminalonStartup",
+      "command": "${command:workbench.action.terminal.new}",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "SplitTerminalonStartup",
+      "dependsOn": ["CreateTerminalonStartup"],
+      "command": "${command:workbench.action.terminal.split}",
+      "type": "shell",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+    // {
+    //   "label": "Docker",
+    //   "type": "shell",
+    //   "command": "docker-compose up",
+    //   "isBackground": true
+    // },
+    // {
+    //   "label": "CreateTerminalOnStartup",
+    //   "type": "shell",
+    //   "command": "${command:workbench.action.terminal.new}",
+    //   "presentation": {
+    //     "echo": true,
+    //     "reveal": "always",
+    //     "focus": true
+    //   }
+    // },
+    // {
+    //   "label": "Startup",
+    //   "type": "shell",
+    //   "runOptions": { "runOn": "folderOpen" },
+    //   "dependsOn": ["Docker", "CreateTerminalOnStartup"]
+    // }
+  ]
+}
